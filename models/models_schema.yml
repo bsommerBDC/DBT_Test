@@ -1,0 +1,49 @@
+version: 2
+
+models:
+    - name: stg_successful_payments
+      description: "A log of all orders with successful payments and how much was paid"
+      columns:
+          - name: order_id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: stg_paid_customer_orders
+      description: "A intermediary with orders along with amount paid and customer information"
+      columns:
+          - name: order_id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: stg_order_grain_PIT_CLV
+      description: "A log of each order and the customer lifetime value at that point in time"
+      columns:
+          - name: order_id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: stg_current_customer_order_info
+      description: "A log of each customer with their first order date and current total number of lifetime orders"
+      columns:
+          - name: customer_id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: mrt_customer_order_info
+      description: "A data mart at the order grain, with rich customer information about current status and historical value"
+      columns:
+          - name: order_id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+
