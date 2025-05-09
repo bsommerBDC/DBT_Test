@@ -1,13 +1,9 @@
-    {{
-        config(
-            materialized='table'
-        )
-    }}
-    
-select 
-    ORDERID as order_id, 
-    max(CREATED) as payment_finalized_date, 
-    sum(AMOUNT) / 100.0 as total_amount_paid
-from {{ source('stripe', 'payment') }}
-where STATUS <> 'fail'
+{{ config(materialized="table") }}
+
+select
+    orderid as order_id,
+    max(created) as payment_finalized_date,
+    sum(amount) / 100.0 as total_amount_paid
+from {{ source("stripe", "payment") }}
+where status <> 'fail'
 group by 1
