@@ -18,6 +18,11 @@ models:
             tests:
                 - unique
                 - not_null
+          - name: total_amount_paid
+            tests:
+                - average_dollars_spent_greater_than_one:
+                    column_name: total_amount_paid
+                    group_by_column: customer_id
 
     - name: stg_order_grain_PIT_CLV
       description: "A log of each order and the customer lifetime value at that point in time"
@@ -45,5 +50,31 @@ models:
             tests:
                 - unique
                 - not_null
+                - relationships:
+                    field: order_id
+                    to: ref('stg_paid_customer_orders')
 
-
+    - name: stg_all_dates
+      columns:
+        - name: date_day
+          tests:
+            - unique
+            - not_null
+            
+    - name: legacy__customer_orders
+      columns:
+        - name: order_id
+          tests:
+            - unique
+            - not_null
+      
+    - name: src_stripe
+      columns:
+        - name: orderid
+          tests:
+            - unique:
+                config:
+                  severity: error
+                  error_if: ">100"
+                  warn_if: ">10"
+            - not_null

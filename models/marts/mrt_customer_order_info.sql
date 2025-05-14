@@ -11,5 +11,5 @@ select
     customer_order_info.first_order_date as fdos
 from {{ ref("stg_paid_customer_orders") }} paid_orders
 left join {{ ref("stg_current_customer_order_info") }} as customer_order_info using (customer_id)
-left outer join {{ ref("stg_order_grain_PIT_CLV") }} clv on using (order_id)
+left outer join {{ ref("stg_order_grain_PIT_CLV") }} as clv using (order_id)
 order by order_id

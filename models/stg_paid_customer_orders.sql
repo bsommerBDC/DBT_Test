@@ -11,5 +11,5 @@ select
     customers.first_name as customer_first_name,
     customers.last_name as customer_last_name
 from {{ source("jaffle_shop", "orders") }} as orders
-left join {{ ref("stg_successful_payments") }} payments on orders.id = p.order_id
-left join {{ source("jaffle_shop", "customers") }} customers on orders.user_id = c.id
+left join {{ ref("stg_successful_payments") }} payments on orders.id = payments.order_id
+left join {{ source("jaffle_shop", "customers") }} customers on orders.user_id = customers.id
